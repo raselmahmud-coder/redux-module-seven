@@ -181,7 +181,11 @@ label {
     max-height: 500px;
     overflow-y: auto;
 }
-
+.error{
+    color: red;
+    font-size: 0.8rem;
+    text-align: center;
+}
 @media (max-width: 450px) {
     .top_card,
     .form {
