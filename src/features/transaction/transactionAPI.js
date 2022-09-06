@@ -1,9 +1,12 @@
 import axios from "../../utils/axios";
 
-export const getTransactions = async () => {
-  const response = await axios.get("/transactions");
-
-  return response.data;
+export const getTransactions = async (type) => {
+  let filter = "";
+  if (type) filter = `?type=${type}`;
+  const { data } = await axios.get(`/transactions${filter}`);
+  // const response = await axios.get("/transactions");
+  console.log(data);
+  return data;
 };
 
 export const addTransaction = async (data) => {
