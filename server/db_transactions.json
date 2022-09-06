@@ -41,6 +41,12 @@
       "type": "income",
       "amount": 567,
       "id": 7
+    },
+    {
+      "name": "Udemy Course",
+      "type": "expense",
+      "amount": 700,
+      "id": 8
     }
   ]
 }
