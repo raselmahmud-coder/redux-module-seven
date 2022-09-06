@@ -17,8 +17,8 @@ const initialState = {
 // async thunks
 export const fetchTransaction = createAsyncThunk(
   "transaction/fetchTransaction",
-  async (type) => {
-    const transaction = await getTransactions(type);
+  async ({ type, latestTransaction, search }) => {
+    const transaction = await getTransactions(type, latestTransaction, search);
     return transaction;
   },
 );
@@ -83,7 +83,7 @@ const transactionSlice = createSlice({
       .addCase(createTransaction.fulfilled, (state, action) => {
         state.isError = false;
         state.isLoading = false;
-        state.transactions.push(action.payload);
+        state.transactions.unshift(action.payload);
       })
       .addCase(createTransaction.rejected, (state, action) => {
         state.isLoading = false;
@@ -97,7 +97,7 @@ const transactionSlice = createSlice({
       .addCase(changeTransaction.fulfilled, (state, action) => {
         state.isError = false;
         state.isLoading = false;
-
+        state.editing = {};
         const indexToUpdate = state.transactions.findIndex(
           (t) => t.id === action.payload.id,
         );

@@ -11,8 +11,9 @@ export default function Transactions() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(fetchTransaction());
-  }, [dispatch]);
+    const latestTransaction = "?_sort=id&_order=desc&_limit=5";
+    dispatch(fetchTransaction({ type: "", latestTransaction }));
+  }, [dispatch, transactions.length]);
   const handleNavigate = () => {
     navigate("/view-all");
   };
@@ -21,9 +22,9 @@ export default function Transactions() {
   if (isLoading) content = <div>Loading...</div>;
   if (!isLoading && isError) content = <div className="error">{error}</div>;
   if (!isLoading && !isError && transactions.length > 0)
-    content = transactions.map((t) => (
-      <Transaction key={t.id} transaction={t} />
-    ));
+    content = transactions
+      .slice(0, 5)
+      .map((t) => <Transaction key={t.id} transaction={t} />);
   if (!isLoading && !isError && transactions.length === 0)
     content = <div className="empty">Not transactions found!</div>;
   return (
@@ -33,7 +34,7 @@ export default function Transactions() {
       <div className="conatiner_of_list_of_transactions">
         <ul>
           {content}
-          {transactions.length > 5 && (
+          {transactions.length >= 5 && (
             <button className="btn" onClick={handleNavigate}>
               View All
             </button>

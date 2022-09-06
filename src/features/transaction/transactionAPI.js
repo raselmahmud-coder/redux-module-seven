@@ -1,11 +1,14 @@
 import axios from "../../utils/axios";
 
-export const getTransactions = async (type) => {
+export const getTransactions = async (type, latestTransaction, search) => {
+  let searchValue = "";
+  if (search) searchValue = type ? `&name_like=${search}`: `?name_like=${search}`;
+  let latest = "";
+  if (latestTransaction) latest = `${latestTransaction}`;
   let filter = "";
   if (type) filter = `?type=${type}`;
-  const { data } = await axios.get(`/transactions${filter}`);
+  const { data } = await axios.get(`/transactions${latest}${filter}${searchValue}`);
   // const response = await axios.get("/transactions");
-  console.log(data);
   return data;
 };
 

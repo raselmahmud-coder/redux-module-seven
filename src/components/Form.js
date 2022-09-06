@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   changeTransaction,
   createTransaction,
+  editDeActive,
 } from "../features/transaction/transactionSlice";
 
 export default function Form() {
@@ -12,10 +13,10 @@ export default function Form() {
   const [amount, setAmount] = useState("");
   const [editMode, setEditMode] = useState(false);
   const dispatch = useDispatch();
-  const { isError, isLoading, error } = useSelector(
+  const { isError, isLoading, error, editing } = useSelector(
     (state) => state.transaction,
   );
-  const { editing } = useSelector((state) => state.transaction);
+  // const { editing } = useSelector((state) => state.transaction);
   useEffect(() => {
     const { name, type, amount } = editing || {};
     if (name) {
@@ -29,6 +30,7 @@ export default function Form() {
     }
   }, [editing]);
   const handleCancelMode = () => {
+    dispatch(editDeActive());
     setEditMode(false);
     reset();
   };
@@ -53,6 +55,7 @@ export default function Form() {
     setEditMode(false);
     reset();
   };
+
   return (
     <div className="form">
       <h3>Add new transaction</h3>
@@ -66,7 +69,7 @@ export default function Form() {
             type="text"
             onChange={(e) => setName(e.target.value)}
             name="name"
-            placeholder="My Salary"
+            placeholder="Enter Name"
           />
         </div>
 
